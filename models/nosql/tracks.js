@@ -69,7 +69,6 @@ TracksScheme.statics.findAllData = function () {
 };
   
 TracksScheme.statics.findOneData = function (id) {
-    console.log("ID 222", id)
     const joinData = this.aggregate([
         {
             $match: {
@@ -89,7 +88,6 @@ TracksScheme.statics.findOneData = function (id) {
         }
     ]);
 
-    console.log("joinData", joinData)
     return joinData;
 };
 

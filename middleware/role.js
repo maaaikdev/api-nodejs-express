@@ -6,7 +6,6 @@ const { handleHttpError } = require("../utils/handleError");
 const checkRole = (roles) => (req, res, next) => {
     try {
         const { user } = req;
-        console.log({user})
         const rolesByUser = user.role; //TODO ["user"]
         //TODO: ["admin"]
         const checkValuesRole = roles.some((singleRole) => rolesByUser.includes(singleRole)); //TODO: true
