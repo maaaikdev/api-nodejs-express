@@ -9,9 +9,9 @@ const { handleHttpError } = require("../utils/handleError");
 
 const getItems = async (req, res) => {
     try {
-        const user = req.user; //TODO Get user from token through middleware
-        const data = await tracksModel.findAllData({});
-        res.send({data, user})
+        const user = req.user;
+        const data = await tracksModel.findAllData();
+        res.send({ data,  user });
     } catch(e) {
         handleHttpError(res, 'ERROR_GET_ITEMS')
     }
@@ -42,6 +42,7 @@ const createItem = async (req, res) => {
     try {
         const body = matchedData(req);
         const data = await tracksModel.create(body);
+        res.status(201);
         res.send({ data });
     } catch(e){
         handleHttpError(res, 'ERROR_CREATE_ITEM')
@@ -75,7 +76,10 @@ const deleteItem = async (req, res) => {
         req = matchedData(req);
         const { id } = req;
         //TODO Soft Delete
-        const data = await tracksModel.delete({_id:id});
+        const deleteResponse = await tracksModel.delete({_id:id});
+        const data = {
+            deleted: deleteResponse.matchedCount
+        }
         res.send({data})
     } catch(e) {
         handleHttpError(res, 'ERROR_DELETE_ITEM')

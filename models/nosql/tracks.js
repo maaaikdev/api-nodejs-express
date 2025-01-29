@@ -60,35 +60,42 @@ TracksScheme.statics.findAllData = function () {
                 foreignField: "_id", //TODO Straoges._id
                 as: "audio", //TODO Alias!
             },
-        },
-        {
-            $unwind: "$audio",
         }
     ]);
     return joinData;
 };
   
-TracksScheme.statics.findOneData = function (id) {
-    const joinData = this.aggregate([
-        {
-            $match: {
-                _id: mongoose.Types.ObjectId(id),
-            },
-        },
-        {
-            $lookup: {
-                from: "storages", //TODO Tracks --> storages
-                localField: "mediaId", //TODO Tracks.mediaId
-                foreignField: "_id", //TODO Straoges._id
-                as: "audio", //TODO Alias!
-            },
-        },
-        {
-            $unwind: "$audio",
-        }
-    ]);
+TracksScheme.statics.findOneData = async function (id) {
 
-    return joinData;
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw new Error("Invalid ID format");
+        }
+
+        const joinData = await this.aggregate([
+            {
+                $match: {
+                    _id: new mongoose.Types.ObjectId(id),
+                },
+            },
+            {
+                $lookup: {
+                    from: "storages", // La colección con la que se hace el join
+                    localField: "mediaId", 
+                    foreignField: "_id", 
+                    as: "audio",
+                },
+            },
+            {
+                $unwind: "$audio",
+            }
+        ]).exec();
+
+        return joinData.length ? joinData[0] : null; // Devolver el primer resultado o null
+    } catch (error) {
+        console.error("Error in findOneData:", error);
+        throw error;
+    }
 };
 
 // TracksScheme.findAllData = function(){
