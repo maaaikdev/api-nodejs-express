@@ -28,6 +28,12 @@ morganBody(app, {
 const port = process.env.PORT || 3000;
 
 /**
+ * Repos:
+ * https://github.com/leifermendez/curso-node-api-js - Without Typescript
+ * https://github.com/leifermendez/curso-node-ts - With Typescript
+ */
+
+/**
  * Define paths documentation
  */
 

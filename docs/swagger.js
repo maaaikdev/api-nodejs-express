@@ -13,6 +13,9 @@ const swaggerDefinition = {
     servers: [
         {
             url: "http://localhost:3001/api"
+        },
+        {
+            url: "https://infinite-plateau-49566-28e2db1257de.herokuapp.com/api"
         }
     ],
     components: {
