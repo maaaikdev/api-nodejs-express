@@ -8,7 +8,7 @@ beforeAll(async () => {
     await userModel.deleteMany({});
 });
 
-test("esto deberia de retornar 404", async () => {
+test("esto deberia de retornar 404.", async () => {
   const response = await request(app)
     .post("/api/auth/login")
     .send(testAuthLogin);
